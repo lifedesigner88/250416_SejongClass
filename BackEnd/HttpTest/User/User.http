@@ -1,0 +1,13 @@
+### Variables
+@BASE_URL = http://localhost:8080/user
+
+### POST 회원생성
+POST {{BASE_URL}}/create
+Content-Type: application/json
+
+{
+    "name": "testUser",
+    "email": "testPass",
+    "password": "1234"
+}
+
