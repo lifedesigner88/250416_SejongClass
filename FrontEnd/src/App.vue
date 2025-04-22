@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { userService } from './services/UserApi';
-
+import { useUserStore } from './store/user.js'
 
 // 사용자 정보를 저장할 반응형 객체
 const userInfo = ref({
@@ -10,13 +9,25 @@ const userInfo = ref({
   password: ''
 })
 
+
+const userStore = useUserStore();
+
+// => 참조
+// const { increment, decrement, incrementAsync } = counterStore
+// // storeToRefs를 사용하여 반응성 유지하면서 구조 분해
+// const { count, name, doubleCount } = storeToRefs(store)
+//
+
+
 // 폼 제출 처리 함수
 const handleSubmit = () => {
 
-  userService.register(userInfo.value)
-  // 여기서 회원가입 로직을 구현합니다
-  // 예: API 호출, 유효성 검증 등
+
+  userStore.createUser(userInfo.value);
+
+
   console.log('회원가입 정보:', userInfo.value)
+  console.log('회원가입 반응:', userStore.userCreateResult)
 
   // 회원가입 후 폼 초기화
   userInfo.value = {
@@ -43,7 +54,7 @@ const handleSubmit = () => {
       </div>
 
       <div class="form-group">
-        <label for="email">이메일</label>
+        <label for="username">이메일</label>
         <input
             type="text"
             id="email"
