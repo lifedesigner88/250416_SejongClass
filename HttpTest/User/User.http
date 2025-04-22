@@ -1,8 +1,8 @@
 ### Variables
-@BASE_URL = http://localhost:8080/user
+@BASE_URL = http://localhost:8080
 
 ### POST 회원생성
-POST {{BASE_URL}}/create
+POST {{BASE_URL}}/user/create
 Content-Type: application/json
 
 {

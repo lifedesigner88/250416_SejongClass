@@ -1,16 +1,19 @@
 <script setup>
 import { ref } from 'vue'
+import { userService } from './services/UserApi';
 
 
 // 사용자 정보를 저장할 반응형 객체
 const userInfo = ref({
   name: '',
-  username: '',
+  email: '',
   password: ''
 })
 
 // 폼 제출 처리 함수
 const handleSubmit = () => {
+
+  userService.register(userInfo.value)
   // 여기서 회원가입 로직을 구현합니다
   // 예: API 호출, 유효성 검증 등
   console.log('회원가입 정보:', userInfo.value)
@@ -18,7 +21,7 @@ const handleSubmit = () => {
   // 회원가입 후 폼 초기화
   userInfo.value = {
     name: '',
-    username: '',
+    email: '',
     password: ''
   }
 }
@@ -40,11 +43,11 @@ const handleSubmit = () => {
       </div>
 
       <div class="form-group">
-        <label for="username">아이디</label>
+        <label for="email">이메일</label>
         <input
             type="text"
-            id="username"
-            v-model="userInfo.username"
+            id="email"
+            v-model="userInfo.email"
             required
             placeholder="사용할 아이디를 입력하세요"
         />

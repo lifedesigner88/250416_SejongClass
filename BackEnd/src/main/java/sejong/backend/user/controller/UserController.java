@@ -2,14 +2,12 @@ package sejong.backend.user.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import sejong.backend.user.dto.req.CreateUserReqDto;
 import sejong.backend.user.dto.res.CreateUserResDto;
 import sejong.backend.user.service.UserService;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
