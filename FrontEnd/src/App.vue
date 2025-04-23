@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from './store/user.js'
+import { storeToRefs } from "pinia";
 
 // 사용자 정보를 저장할 반응형 객체
 const userInfo = ref({
@@ -12,22 +13,19 @@ const userInfo = ref({
 
 const userStore = useUserStore();
 
-// => 참조
-// const { increment, decrement, incrementAsync } = counterStore
-// // storeToRefs를 사용하여 반응성 유지하면서 구조 분해
-// const { count, name, doubleCount } = storeToRefs(store)
-//
+const { createUser } = userStore
+const { userCreateResult } = storeToRefs(userStore)
 
 
 // 폼 제출 처리 함수
-const handleSubmit = () => {
+const handleSubmit =  () => {
 
 
-  userStore.createUser(userInfo.value);
+  createUser(userInfo.value);
 
 
   console.log('회원가입 정보:', userInfo.value)
-  console.log('회원가입 반응:', userStore.userCreateResult)
+  console.log('회원가입 반응:', userCreateResult.value)
 
   // 회원가입 후 폼 초기화
   userInfo.value = {
@@ -78,6 +76,7 @@ const handleSubmit = () => {
       <button type="submit">가입하기</button>
     </form>
   </div>
+  {{userCreateResult}}
 </template>
 
 <style scoped>
