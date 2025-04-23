@@ -11,3 +11,5 @@ Content-Type: application/json
     "password": "1234"
 }
 
+### YOUTUBE GET
+GET https://www.youtube.com/watch?v=UHIU-qFBPR8
