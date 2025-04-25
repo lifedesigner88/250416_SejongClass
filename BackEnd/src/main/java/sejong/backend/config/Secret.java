@@ -6,8 +6,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "api-keystt")
+@ConfigurationProperties(prefix = "jwt")
 @Getter @Setter
 public class Secret {
-    private String kakao;
+    private String secret;
+    private long expiration;
 }

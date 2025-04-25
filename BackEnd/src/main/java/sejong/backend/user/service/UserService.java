@@ -1,9 +1,8 @@
 package sejong.backend.user.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import sejong.backend.config.Secret;
+import sejong.backend.config.jwt.JwtTokenUtil;
 import sejong.backend.user.dto.req.CreateUserReqDto;
 import sejong.backend.user.dto.req.LoginReqDto;
 import sejong.backend.user.dto.res.CreateUserResDto;
@@ -17,33 +16,32 @@ import java.util.Optional;
 public class UserService {
 
     private final UserDAO userDAO;
-    private final Secret secret;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    public UserService(UserDAO userDAO, Secret secret, PasswordEncoder passwordEncoder) {
+    public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder,
+                       JwtTokenUtil jwtTokenUtil) {
         this.userDAO = userDAO;
-        this.secret = secret;
         this.passwordEncoder = passwordEncoder;
+        this.jwtTokenUtil = jwtTokenUtil;
     }
-
-    @Value("${SECRET_ENV}")
-    private String secretEnv;
 
     public CreateUserResDto createUser(CreateUserReqDto dto) {
         User user = dto.makeReqDtoToUser();
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
-
-        System.out.println(secret.getKakao());
-        System.out.println(secretEnv);
         return new CreateUserResDto(userDAO.createUser(user));
     }
 
     public LoginResDto login(LoginReqDto dto) {
-        Optional<User> user = userDAO.findUserByEmail(dto.getEmail());
-        if (user.isPresent()) {
-            if (passwordEncoder.matches(dto.getPassword(), user.get().getPassword())) {
-                // 토큰 발급 코드 삽입
-                return new LoginResDto(user.get(), "로그인 성공");
+        Optional<User> optionalUser = userDAO.findUserByEmail(dto.getEmail());
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            if (passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+                String token = jwtTokenUtil.generateToken(user);
+                LoginResDto loginResDto = new LoginResDto(user, "로그인 성공");
+                loginResDto.setAccessToken(token);
+                return loginResDto;
             }
             return new LoginResDto(null, "비밀번호 불일치");
         }

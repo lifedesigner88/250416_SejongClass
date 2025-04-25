@@ -7,7 +7,6 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
-
   jpa:
     hibernate:
       ddl-auto: create
@@ -22,9 +21,8 @@ SECRET_ENV: ${SECRET_ENV_VALUE:default-value}
 server:
   port: 8080
 
-api-keystt:
-  kakao: ${KAKAO_API_KEY}
-
+# 토큰관련
 jwt:
-  secret: ${JWT_SECRET:your-secret-key-should-be-at-least-32-characters-long}
-  token-validity-in-seconds: 86400  # 24시간
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXP}  # 24시간(밀리초)
+
