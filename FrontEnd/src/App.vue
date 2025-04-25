@@ -2,14 +2,15 @@
 import { ref } from 'vue'
 import SignupForm from './components/SignupForm.vue'
 import YoutubeThumbnail from './components/YoutubeThumbnail.vue'
+import LoginForm from "@/components/LoginForm.vue";
 
 // 현재 활성화된 탭을 관리하는 반응형 변수
 const activeTab = ref('signup') // 'signup' 또는 'youtube'
+const result = ref("비어있음")
 
 // 회원가입 성공 시 처리 함수
-const handleSignupSuccess = (userData) => {
-  console.log('회원가입 성공:', userData)
-  // 성공 후 원하는 로직 (예: 다른 탭으로 전환)
+const showResultData = (userData) => {
+  result.value = userData
 }
 </script>
 
@@ -25,8 +26,14 @@ const handleSignupSuccess = (userData) => {
           회원가입
         </button>
         <button
+            @click="activeTab = 'login'"
+            :class="{ login: activeTab === 'login' }"
+        >
+          로그인
+        </button>
+        <button
             @click="activeTab = 'youtube'"
-            :class="{ active: activeTab === 'youtube' }"
+            :class="{ youtube: activeTab === 'youtube' }"
         >
           유튜브 썸네일
         </button>
@@ -36,11 +43,16 @@ const handleSignupSuccess = (userData) => {
     <main>
       <SignupForm
           v-if="activeTab === 'signup'"
-          @signup-success="handleSignupSuccess"
+          @signup-success="showResultData"
+      />
+      <LoginForm
+          v-if="activeTab === 'login'"
+          @login-success="showResultData"
       />
       <YoutubeThumbnail
           v-if="activeTab === 'youtube'"
       />
+      {{ result }}
     </main>
   </div>
 </template>
@@ -94,6 +106,16 @@ nav button {
 
 nav button.active {
   background-color: #4CAF50;
+  color: white;
+}
+
+nav button.login {
+  background-color: #1790b5;
+  color: white;
+}
+
+nav button.youtube {
+  background-color: #FF0000;
   color: white;
 }
 
