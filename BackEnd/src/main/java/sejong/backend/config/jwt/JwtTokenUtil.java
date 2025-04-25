@@ -22,7 +22,7 @@ public class JwtTokenUtil {
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = secret.getSecret().getBytes();
+        byte[] keyBytes = secret.getJwt().getSecret().getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
@@ -30,14 +30,14 @@ public class JwtTokenUtil {
 
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getUserId());
-        claims.put("email", user.getEmail());
+        claims.put("role", user.getRole().name());
 
         long now = System.currentTimeMillis();
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(user.getEmail())
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + secret.getExpiration()))
+                .setExpiration(new Date(now + secret.getJwt().getExpiration()))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: BackEnd
@@ -16,13 +19,12 @@ spring:
         format_sql: false
         dialect: org.hibernate.dialect.MariaDBDialect
 
-# 보안 환경 변수
-SECRET_ENV: ${SECRET_ENV_VALUE:default-value}
-server:
-  port: 8080
-
 # 토큰관련
-jwt:
-  secret: ${JWT_SECRET}
-  expiration: ${JWT_EXP}  # 24시간(밀리초)
+secret:
+  admin:
+    admin-id : ${ADMIN_ID}
+    admin-pass : ${ADMIN_PASS}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: ${JWT_EXP}  # 24시간(밀리초)
 
