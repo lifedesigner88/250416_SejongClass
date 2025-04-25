@@ -10,11 +10,13 @@ public class CreateUserResDto {
     private final String name;
     private final String email;
     private final String password;
+    private final String role;
 
     public CreateUserResDto(User user) {
         this.userId = user.getUserId();
-        this.name = user.getName();
         this.email = user.getEmail();
+        this.name = user.getName();
+        this.role = String.valueOf(user.getRole());
         this.password = user.getPassword();
     }
 }

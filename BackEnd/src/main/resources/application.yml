@@ -17,6 +17,8 @@ spring:
         format_sql: false
         dialect: org.hibernate.dialect.MariaDBDialect
 
+# 보안 환경 변수
+SECRET_ENV: ${SECRET_ENV_VALUE:default-value}
 server:
   port: 8080
 

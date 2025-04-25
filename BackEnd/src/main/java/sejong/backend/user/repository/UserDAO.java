@@ -3,6 +3,8 @@ package sejong.backend.user.repository;
 import org.springframework.stereotype.Component;
 import sejong.backend.user.entity.User;
 
+import java.util.Optional;
+
 @Component
 public class UserDAO {
 
@@ -15,5 +17,16 @@ public class UserDAO {
     public User createUser (User user) {
         return userRepository.save(user);
     }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+
+
 
 }
