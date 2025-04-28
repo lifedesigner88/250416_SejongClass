@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', () => {
 
     const userCreateResult = ref({});
     const userLoginResult = ref({});
+    const token = ref(localStorage.getItem('token') || '');
 
     const createUser = async (userData) => {
         userCreateResult.value = await POST('/user/create',userData);
@@ -13,6 +14,10 @@ export const useUserStore = defineStore('user', () => {
 
     const loginUser = async (userData) => {
         userLoginResult.value = await POST('/user/login',userData);
+        if (userLoginResult.value.accessToken) {
+            token.value = userLoginResult.value.accessToken;
+            localStorage.setItem('token', token.value);
+        }
     }
 
     return {
@@ -20,6 +25,7 @@ export const useUserStore = defineStore('user', () => {
         userLoginResult,
         createUser,
         loginUser,
+        token
     }
 
 })
