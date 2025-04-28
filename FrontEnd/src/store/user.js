@@ -6,6 +6,7 @@ export const useUserStore = defineStore('user', () => {
 
     const userCreateResult = ref({});
     const userLoginResult = ref({});
+    const isAuthenticated = ref(false);
     const token = ref(localStorage.getItem('token') || '');
 
     const createUser = async (userData) => {
@@ -17,6 +18,7 @@ export const useUserStore = defineStore('user', () => {
         if (userLoginResult.value.accessToken) {
             token.value = userLoginResult.value.accessToken;
             localStorage.setItem('token', token.value);
+            isAuthenticated.value = true;
         }
     }
 
@@ -25,6 +27,7 @@ export const useUserStore = defineStore('user', () => {
         userLoginResult,
         createUser,
         loginUser,
+        isAuthenticated,
         token
     }
 

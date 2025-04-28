@@ -3,9 +3,11 @@ package sejong.backend.config.jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Component;
 import sejong.backend.config.Secret;
 import sejong.backend.user.entity.User;
+import sejong.backend.user.entity.UserRole;
 
 import java.security.Key;
 import java.util.Date;
@@ -41,5 +43,36 @@ public class JwtTokenUtil {
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
+    
+    public boolean validateToken(String jwt) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(jwt);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    public UsernamePasswordAuthenticationToken getAuthentication(String jwt) {
+        var claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(jwt)
+                .getBody();
+        
+        Long userId = claims.get("userId", Long.class);
+        String role = claims.get("role", String.class);
+        String email = claims.getSubject();
+        
+        User user = User.builder()
+                .userId(userId)
+                .email(email)
+                .role(UserRole.valueOf(role))
+                .build();
+        
+        return new UsernamePasswordAuthenticationToken(user, jwt, user.getAuthorities());
+    }
 }

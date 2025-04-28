@@ -7,21 +7,27 @@ import sejong.backend.user.dto.req.CreateUserReqDto;
 import sejong.backend.user.dto.req.LoginReqDto;
 import sejong.backend.user.dto.res.CreateUserResDto;
 import sejong.backend.user.dto.res.LoginResDto;
+import sejong.backend.user.dto.res.UserInfoResDto;
 import sejong.backend.user.entity.User;
 import sejong.backend.user.repository.UserDAO;
+import sejong.backend.user.repository.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
     private final UserDAO userDAO;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
 
-    public UserService(UserDAO userDAO, PasswordEncoder passwordEncoder,
+    public UserService(UserDAO userDAO, UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
                        JwtTokenUtil jwtTokenUtil) {
         this.userDAO = userDAO;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtil = jwtTokenUtil;
     }
@@ -46,5 +52,12 @@ public class UserService {
             return new LoginResDto(null, "비밀번호 불일치");
         }
         return new LoginResDto(null, "존재하지 않는 이메일 입니다.");
+    }
+
+    public List<UserInfoResDto> getAllUserInfo() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(UserInfoResDto::new)
+                .toList();
     }
 }

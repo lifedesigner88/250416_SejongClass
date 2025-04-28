@@ -11,11 +11,16 @@ Content-Type: application/json
     "password": "1234"
 }
 
-### YOUTUBE GET
+### USER LOGIN
 POST {{BASE_URL}}/user/login
 Content-Type: application/json
 
 {
-  "email": "sejong",
-  "password": "tpwhd"
+  "email": "testPass",
+  "password": "1234"
 }
+
+### GET USER LIST
+GET {{BASE_URL}}/user/list
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlcklkIjoyLCJzdWIiOiJ0ZXN0UGFzcyIsImlhdCI6MTc0NTgwODU5MywiZXhwIjoxNzQ1ODk0OTkzfQ.zdbIbp4WWWP87Zvy74jg9yxdxwGeyr4jQbrxTAoPMW4
