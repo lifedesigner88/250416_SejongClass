@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import SignupForm from './components/SignupForm.vue'
 import YoutubeThumbnail from './components/YoutubeThumbnail.vue'
 import LoginForm from "@/components/LoginForm.vue";
+import UserList from "@/components/UserList.vue";
 
 // 현재 활성화된 탭을 관리하는 반응형 변수
 const activeTab = ref('signup') // 'signup' 또는 'youtube'
@@ -21,7 +22,7 @@ const showResultData = (userData) => {
       <nav>
         <button
             @click="activeTab = 'signup'"
-            :class="{ active: activeTab === 'signup' }"
+            :class="{ signup: activeTab === 'signup' }"
         >
           회원가입
         </button>
@@ -37,6 +38,12 @@ const showResultData = (userData) => {
         >
           유튜브 썸네일
         </button>
+        <button
+            @click="activeTab = 'userlist'"
+            :class="{ userlist: activeTab === 'userlist' }"
+        >
+          유저리스트
+        </button>
       </nav>
     </header>
 
@@ -51,6 +58,9 @@ const showResultData = (userData) => {
       />
       <YoutubeThumbnail
           v-if="activeTab === 'youtube'"
+      />
+      <UserList
+          v-if="activeTab === 'userlist'"
       />
       {{ result }}
     </main>
@@ -104,7 +114,7 @@ nav button {
   transition: all 0.3s ease;
 }
 
-nav button.active {
+nav button.signup {
   background-color: #4CAF50;
   color: white;
 }
@@ -114,10 +124,17 @@ nav button.login {
   color: white;
 }
 
+nav button.userlist {
+  background-color: #9900e6;
+  color: white;
+}
+
 nav button.youtube {
   background-color: #FF0000;
   color: white;
 }
+
+
 
 nav button:hover:not(.active) {
   background-color: #ddd;

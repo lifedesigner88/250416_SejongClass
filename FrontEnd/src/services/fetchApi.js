@@ -1,15 +1,16 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 // API 요청 헬퍼 함수
-export async function POST(endpoint, userData) {
+export async function POST(endpoint, userData, token = '') {
     const url = `${BASE_URL}${endpoint}`
+
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) headers['Authorization'] = `Bearer ${token}`
 
     try {
         const response = await fetch(url, {
             method : 'POST',
-            headers : {
-                'Content-Type': 'application/json'
-            },
+            headers,
             body : JSON.stringify(userData)
         })
 
@@ -21,17 +22,21 @@ export async function POST(endpoint, userData) {
     }
 }
 
-export async function GET(endpoint) {
+export async function GET(endpoint, token = '') {
     const url = `${BASE_URL}${endpoint}`
+
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) headers['Authorization'] = `Bearer ${token}`
 
     try {
         const response = await fetch(url, {
             method : 'GET',
-            headers : {
-                'Content-Type': 'application/json'
-            }
+            headers
         })
 
+        if (response.status === 403) {
+            alert('권한이 없습니다.');
+        }
         return await response.json()
 
     } catch (error) {

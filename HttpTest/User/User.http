@@ -21,6 +21,6 @@ Content-Type: application/json
 }
 
 ### GET USER LIST
-GET {{BASE_URL}}/user/list
+GET {{BASE_URL}}/admin/user/list
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlcklkIjoyLCJzdWIiOiJ0ZXN0UGFzcyIsImlhdCI6MTc0NTgwODU5MywiZXhwIjoxNzQ1ODk0OTkzfQ.zdbIbp4WWWP87Zvy74jg9yxdxwGeyr4jQbrxTAoPMW4
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NTg5NDgwMywiZXhwIjoxNzQ1OTgxMjAzfQ.y2sIpigdd_WHbQk1B5WXxEJIvXP6gnqCy-DzXSkw_Ek

@@ -1,13 +1,15 @@
 import { ref } from 'vue'
 import { defineStore } from "pinia";
-import { POST } from "@/services/fetchApi.js";
+import { POST, GET } from "@/services/fetchApi.js";
 
 export const useUserStore = defineStore('user', () => {
 
+    const token = ref(localStorage.getItem('token') || '');
+
     const userCreateResult = ref({});
     const userLoginResult = ref({});
-    const isAuthenticated = ref(false);
-    const token = ref(localStorage.getItem('token') || '');
+    const userList = ref({});
+
 
     const createUser = async (userData) => {
         userCreateResult.value = await POST('/user/create',userData);
@@ -18,16 +20,20 @@ export const useUserStore = defineStore('user', () => {
         if (userLoginResult.value.accessToken) {
             token.value = userLoginResult.value.accessToken;
             localStorage.setItem('token', token.value);
-            isAuthenticated.value = true;
         }
+    }
+
+    const getUserList = async () => {
+        userList.value = await GET('/admin/user/list', token.value);
     }
 
     return {
         userCreateResult,
         userLoginResult,
+        userList,
         createUser,
         loginUser,
-        isAuthenticated,
+        getUserList,
         token
     }
 
