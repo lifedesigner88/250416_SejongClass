@@ -13,7 +13,9 @@ export async function POST(endpoint, userData, token = '') {
             headers,
             body : JSON.stringify(userData)
         })
-
+        if (response.status === 409) {
+            alert('이미 존재하는 이메일입니다.');
+        }
         return await response.json()
 
     } catch (error) {

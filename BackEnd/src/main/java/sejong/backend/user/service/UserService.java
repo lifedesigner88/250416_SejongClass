@@ -3,6 +3,7 @@ package sejong.backend.user.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sejong.backend.config.jwt.JwtTokenUtil;
+import sejong.backend.exception.EmailDuplicateException;
 import sejong.backend.user.dto.req.CreateUserReqDto;
 import sejong.backend.user.dto.req.LoginReqDto;
 import sejong.backend.user.dto.res.CreateUserResDto;
@@ -34,6 +35,10 @@ public class UserService {
 
     public CreateUserResDto createUser(CreateUserReqDto dto) {
         User user = dto.makeReqDtoToUser();
+        if (userRepository.existsByEmail(user.getEmail())) {
+            System.out.println("12345123124123");
+            throw new EmailDuplicateException("이미 존재하는 이메일입니다.");
+        }
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         return new CreateUserResDto(userDAO.createUser(user));
     }

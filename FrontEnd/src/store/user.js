@@ -10,7 +10,6 @@ export const useUserStore = defineStore('user', () => {
     const userLoginResult = ref({});
     const userList = ref({});
 
-
     const createUser = async (userData) => {
         userCreateResult.value = await POST('/user/create',userData);
     }
