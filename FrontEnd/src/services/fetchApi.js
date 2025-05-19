@@ -38,6 +38,7 @@ export async function GET(endpoint, token = '') {
 
         if (response.status === 403) {
             alert('권한이 없습니다.');
+            return { error: true, status: 403, message: '권한이 없습니다.' };
         }
         return await response.json()
 

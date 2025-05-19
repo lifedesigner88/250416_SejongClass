@@ -23,7 +23,9 @@ export const useUserStore = defineStore('user', () => {
     }
 
     const getUserList = async () => {
-        userList.value = await GET('/admin/user/list', token.value);
+        const data = await GET('/admin/user/list', token.value)
+        if (data[0].userId) userList.value = data; // 아이디 형태의 자료가 있으면 저장
+        else userList.value = []; // 없으면 빈 배열 리턴.
     }
 
     return {
@@ -35,5 +37,4 @@ export const useUserStore = defineStore('user', () => {
         getUserList,
         token
     }
-
 })

@@ -1,16 +1,26 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-// 유튜브 URL을 입력받을 반응형 변수
 const youtubeUrl = ref('')
 
-// 유튜브 비디오 ID를 추출하는 함수
+const isLoading = ref(false)
+const hasError = ref(false)
+
+
 const extractVideoId = (url) => {
   if (!url) return null
 
-  // 일반 유튜브 URL (https://www.youtube.com/watch?v=VIDEO_ID)
+  //      유튜브 URL 형식:
+  //     "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+  //     "https://youtu.be/dQw4w9WgXcQ",
+  //     "https://youtube.com/embed/dQw4w9WgXcQ",
+  //     "https://youtube.com/v/dQw4w9WgXcQ",
+  //     "https://youtube.com/u/username/dQw4w9WgXcQ"
+
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
   const match = url.match(regExp)
+
+  console.log(match, "🚀");
 
   // URL이 youtu.be/VIDEO_ID 형식인 경우
   if (url.includes('youtu.be/')) {
@@ -38,9 +48,6 @@ const videoLink = computed(() => {
   return `https://www.youtube.com/watch?v=${videoId}`
 })
 
-// 썸네일 로딩 상태
-const isLoading = ref(false)
-const hasError = ref(false)
 
 // 썸네일 이미지 로딩 처리
 const handleImageLoad = () => {
