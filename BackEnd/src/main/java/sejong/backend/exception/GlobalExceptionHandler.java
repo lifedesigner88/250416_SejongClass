@@ -20,4 +20,15 @@ public class GlobalExceptionHandler {
         );
         return new ResponseEntity<>(errorResponse, status);
     }
+    
+    @ExceptionHandler(InvalidYoutubeIdException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidYoutubeIdException(InvalidYoutubeIdException ex) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ErrorResponse errorResponse = new ErrorResponse(
+                status.value(),
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, status);
+    }
 }

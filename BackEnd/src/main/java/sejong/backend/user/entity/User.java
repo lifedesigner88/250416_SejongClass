@@ -9,9 +9,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import sejong.backend.common.BaseEntity;
+import sejong.backend.youtube.entity.UserYoutube;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 
 @Entity
@@ -35,6 +38,9 @@ public class User extends BaseEntity implements UserDetails {
     
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private final List<UserYoutube> userYoutubes = new ArrayList<>();
     
     @Builder
     public User(Long userId, String name, String email, UserRole role) {

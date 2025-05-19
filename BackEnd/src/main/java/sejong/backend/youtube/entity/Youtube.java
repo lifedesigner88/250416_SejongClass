@@ -1,12 +1,12 @@
 package sejong.backend.youtube.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import sejong.backend.common.BaseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter
@@ -15,8 +15,12 @@ public class Youtube extends BaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long youtubeId;
     
-    private String youtubeId;
+    private String youtubeUUID;
+    
+    @OneToMany(mappedBy = "youtube", cascade = CascadeType.ALL)
+    private final List<UserYoutube> userYoutubes = new ArrayList<>();
+    
     
 }

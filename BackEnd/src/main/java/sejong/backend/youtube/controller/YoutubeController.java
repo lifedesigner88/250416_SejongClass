@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sejong.backend.exception.InvalidYoutubeIdException;
 import sejong.backend.youtube.dto.req.addYoutubeReqDto;
 import sejong.backend.youtube.dto.res.addYoutubeResDto;
 import sejong.backend.youtube.service.YoutubeService;
@@ -20,7 +21,7 @@ public class YoutubeController {
     }
     
     @PostMapping("add")
-    public ResponseEntity<addYoutubeResDto> addYoutubeToUser(@RequestBody addYoutubeReqDto dto){
+    public ResponseEntity<addYoutubeResDto> addYoutubeToUser(@RequestBody addYoutubeReqDto dto) throws InvalidYoutubeIdException {
         
         addYoutubeResDto resDto = youtubeService.addYoutubeToUser(dto);
         
