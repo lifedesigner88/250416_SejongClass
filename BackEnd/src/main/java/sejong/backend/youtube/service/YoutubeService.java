@@ -8,7 +8,7 @@ import sejong.backend.youtube.dto.req.addYoutubeReqDto;
 import sejong.backend.youtube.dto.res.addYoutubeResDto;
 import sejong.backend.youtube.entity.UserYoutube;
 import sejong.backend.youtube.entity.Youtube;
-import sejong.backend.youtube.repository.UserYouTubeRepository;
+import sejong.backend.youtube.repository.UserYoutubeRepository;
 import sejong.backend.youtube.repository.YoutubeRepository;
 
 import java.util.regex.Pattern;
@@ -18,13 +18,14 @@ public class YoutubeService {
     
     private static final Pattern YOUTUBE_ID_PATTERN = Pattern.compile("^[A-Za-z0-9_-]{11}$");
     private final YoutubeRepository youtubeRepository;
+    private final UserYoutubeRepository userYoutubeRepository;
     private final SecurityUtils securityUtils;
-    private final UserYouTubeRepository userYouTubeRepository;
     
-    public YoutubeService(YoutubeRepository youtubeRepository, SecurityUtils securityUtils, UserYouTubeRepository userYouTubeRepository) {
+    public YoutubeService(YoutubeRepository youtubeRepository, SecurityUtils securityUtils,
+                          UserYoutubeRepository userYoutubeRepository) {
         this.youtubeRepository = youtubeRepository;
         this.securityUtils = securityUtils;
-        this.userYouTubeRepository = userYouTubeRepository;
+        this.userYoutubeRepository = userYoutubeRepository;
     }
     
     public addYoutubeResDto addYoutubeToUser(addYoutubeReqDto dto) throws InvalidYoutubeIdException {
@@ -35,14 +36,10 @@ public class YoutubeService {
         User reqUser = securityUtils.getUserByAuthentication();
         
         if (youtubeRepository.existsByYoutubeUUID(dto.getYoutubeId())){
-
             Youtube youtube = youtubeRepository.findByYoutubeUUID(dto.getYoutubeId());
             UserYoutube userYoutube = new UserYoutube(reqUser, youtube);
-            userYouTubeRepository.save(userYoutube);
-            
+            userYoutubeRepository.save(userYoutube);
         }
-        
-        
         
         Youtube youtube = new Youtube();
         youtube.setYoutubeUUID(dto.getYoutubeId());
