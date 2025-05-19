@@ -9,9 +9,9 @@ import sejong.backend.user.entity.UserRole;
 @Getter
 public class CreateUserReqDto {
 
-    public String name;
-    public String email;
-    public String password;
+    private String name;
+    private String email;
+    private String password;
 
     public User makeReqDtoToUser() {
         return User.builder()

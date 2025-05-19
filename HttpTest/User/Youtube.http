@@ -1,0 +1,13 @@
+### Variables
+@BASE_URL = http://localhost:8080
+@token = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NzYzNTY2NSwiZXhwIjoxNzQ3NzIyMDY1fQ.SEirFy18YqfJevQEdKK6WZbMcmXXRaBe6h_wrLIRZQk
+
+
+### POST {{baseUrl}}/user/youtube
+POST {{BASE_URL}}/youtube/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "youtubeId": "exampleYoutubeId"
+}

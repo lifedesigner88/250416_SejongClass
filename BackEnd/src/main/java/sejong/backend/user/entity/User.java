@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import sejong.backend.common.BaseEntity;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -16,7 +17,7 @@ import java.util.Collections;
 @Entity
 @Getter
 @NoArgsConstructor
-public class User implements UserDetails {
+public class User extends BaseEntity implements UserDetails {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
