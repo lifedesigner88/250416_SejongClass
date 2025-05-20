@@ -1,6 +1,7 @@
 ### Variables
 @BASE_URL = http://localhost:8080
-@token = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NzYzNTY2NSwiZXhwIjoxNzQ3NzIyMDY1fQ.SEirFy18YqfJevQEdKK6WZbMcmXXRaBe6h_wrLIRZQk
+#@token = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NzYzNTY2NSwiZXhwIjoxNzQ3NzIyMDY1fQ.SEirFy18YqfJevQEdKK6WZbMcmXXRaBe6h_wrLIRZQk
+@token = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlcklkIjoyLCJzdWIiOiJ0ZXN0UGFzcyIsImlhdCI6MTc0NzcwMjUwNywiZXhwIjoxNzQ3Nzg4OTA3fQ.5SKxy3eTGOIHyDOuFtoJfNo9-D1qXKf-8jHSDGEsf1c
 
 
 ### POST {{baseUrl}}/user/youtube
@@ -9,5 +10,5 @@ Content-Type: application/json
 Authorization: Bearer {{token}}
 
 {
-  "youtubeId": "dLt-3APQFKI"
+  "youtubeUUID": "dLt-3APQFKI"
 }

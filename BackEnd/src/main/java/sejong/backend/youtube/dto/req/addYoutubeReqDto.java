@@ -6,5 +6,5 @@ import lombok.Setter;
 @Getter
 @Setter
 public class addYoutubeReqDto {
-    private String YoutubeId;
+    private String YoutubeUUID;
 }

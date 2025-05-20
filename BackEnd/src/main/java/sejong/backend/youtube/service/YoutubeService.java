@@ -30,26 +30,25 @@ public class YoutubeService {
     
     public addYoutubeResDto addYoutubeToUser(addYoutubeReqDto dto) throws InvalidYoutubeIdException {
         
-        if (!validateYoutubeId(dto.getYoutubeId()))
+        String UUID = dto.getYoutubeUUID();
+        
+        if (!validateYoutubeId(UUID))
             throw new InvalidYoutubeIdException("Invalid YouTube ID format");
         
         User reqUser = securityUtils.getUserByAuthentication();
+        Youtube reqYoutube;
         
-        if (youtubeRepository.existsByYoutubeUUID(dto.getYoutubeId())){
-            Youtube youtube = youtubeRepository.findByYoutubeUUID(dto.getYoutubeId());
-            UserYoutube userYoutube = new UserYoutube(reqUser, youtube);
-            userYoutubeRepository.save(userYoutube);
+        if (youtubeRepository.existsByYoutubeUUID(UUID)) {
+            reqYoutube = youtubeRepository.findByYoutubeUUID(UUID);
+        } else {
+            reqYoutube = new Youtube();
+            reqYoutube.setYoutubeUUID(UUID);
+            youtubeRepository.save(reqYoutube);
         }
+        UserYoutube userYoutube = new UserYoutube(reqUser, reqYoutube);
+        userYoutubeRepository.save(userYoutube);
         
-        Youtube youtube = new Youtube();
-        youtube.setYoutubeUUID(dto.getYoutubeId());
-        
-        youtubeRepository.save(youtube);
-        
-        addYoutubeResDto resDto = new addYoutubeResDto();
-        resDto.setYoutubeId(dto.getYoutubeId());
-        
-        return resDto;
+        return new addYoutubeResDto(reqUser.getEmail(), reqYoutube.getYoutubeUUID());
     }
     
     private boolean validateYoutubeId(String youtubeId) {

@@ -7,6 +7,11 @@ import lombok.Setter;
 @Setter
 public class addYoutubeResDto {
 
-    private String YoutubeId;
+    private String reqUseremail;
+    private String YoutubeUUID;
     
+    public addYoutubeResDto(String reqUseremail, String YoutubeUUID) {
+        this.reqUseremail = reqUseremail;
+        this.YoutubeUUID = YoutubeUUID;
+    }
 }
