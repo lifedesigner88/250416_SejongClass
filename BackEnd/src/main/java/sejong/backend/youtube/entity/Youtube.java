@@ -2,6 +2,7 @@ package sejong.backend.youtube.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sejong.backend.common.BaseEntity;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class Youtube extends BaseEntity {
     
     @Id
@@ -22,5 +24,8 @@ public class Youtube extends BaseEntity {
     @OneToMany(mappedBy = "youtube", cascade = CascadeType.ALL)
     private final List<UserYoutube> userYoutubes = new ArrayList<>();
     
+    public Youtube(String youtubeUUID) {
+        this.youtubeUUID = youtubeUUID;
+    }
     
 }

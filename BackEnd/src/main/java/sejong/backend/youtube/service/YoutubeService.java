@@ -4,9 +4,10 @@ import org.springframework.stereotype.Service;
 import sejong.backend.config.security.SecurityUtils;
 import sejong.backend.exception.InvalidYoutubeIdException;
 import sejong.backend.user.entity.User;
-import sejong.backend.youtube.dto.req.addYoutubeReqDto;
-import sejong.backend.youtube.dto.res.addYoutubeResDto;
+import sejong.backend.youtube.dto.req.AddYoutubeReqDto;
+import sejong.backend.youtube.dto.res.AddYoutubeResDto;
 import sejong.backend.youtube.entity.UserYoutube;
+import sejong.backend.youtube.entity.UserYoutubeId;
 import sejong.backend.youtube.entity.Youtube;
 import sejong.backend.youtube.repository.UserYoutubeRepository;
 import sejong.backend.youtube.repository.YoutubeRepository;
@@ -28,30 +29,37 @@ public class YoutubeService {
         this.userYoutubeRepository = userYoutubeRepository;
     }
     
-    public addYoutubeResDto addYoutubeToUser(addYoutubeReqDto dto) throws InvalidYoutubeIdException {
+    public AddYoutubeResDto linkYoutubeToUser(AddYoutubeReqDto dto) throws InvalidYoutubeIdException {
+        String youtubeUUID = dto.getYoutubeUUID();
+        validateYoutubeId(youtubeUUID);
         
-        String UUID = dto.getYoutubeUUID();
+        User currentUser = securityUtils.getUserByAuthentication();
+        Youtube youtube = findOrCreateYoutube(youtubeUUID);
+        linkUserToYoutubeIfNotExists(currentUser, youtube);
         
-        if (!validateYoutubeId(UUID))
-            throw new InvalidYoutubeIdException("Invalid YouTube ID format");
-        
-        User reqUser = securityUtils.getUserByAuthentication();
-        Youtube reqYoutube;
-        
-        if (youtubeRepository.existsByYoutubeUUID(UUID)) {
-            reqYoutube = youtubeRepository.findByYoutubeUUID(UUID);
-        } else {
-            reqYoutube = new Youtube();
-            reqYoutube.setYoutubeUUID(UUID);
-            youtubeRepository.save(reqYoutube);
-        }
-        UserYoutube userYoutube = new UserYoutube(reqUser, reqYoutube);
-        userYoutubeRepository.save(userYoutube);
-        
-        return new addYoutubeResDto(reqUser.getEmail(), reqYoutube.getYoutubeUUID());
+        return new AddYoutubeResDto(currentUser.getEmail(), youtube.getYoutubeUUID());
     }
     
-    private boolean validateYoutubeId(String youtubeId) {
-        return youtubeId != null && YOUTUBE_ID_PATTERN.matcher(youtubeId).matches();
+    private void validateYoutubeId(String youtubeUUID) throws InvalidYoutubeIdException {
+        if (youtubeUUID == null || !YOUTUBE_ID_PATTERN.matcher(youtubeUUID).matches()) {
+            throw new InvalidYoutubeIdException("Invalid YouTube ID format");
+        }
     }
+    
+    private Youtube findOrCreateYoutube(String youtubeUUID) {
+        Youtube youtube = youtubeRepository.findByYoutubeUUID(youtubeUUID);
+        if (youtube == null) {
+            youtube = youtubeRepository.save(new Youtube(youtubeUUID));
+        }
+        return youtube;
+    }
+    
+    private void linkUserToYoutubeIfNotExists(User user, Youtube youtube) {
+        UserYoutubeId id = new UserYoutubeId(user, youtube);
+        if (!userYoutubeRepository.existsById(id)) {
+            UserYoutube userYoutube = new UserYoutube(user, youtube);
+            userYoutubeRepository.save(userYoutube);
+        }
+    }
+    
 }

@@ -1,6 +1,7 @@
 ### Variables
 @BASE_URL = http://localhost:8080
 
+
 ### POST 회원생성
 POST {{BASE_URL}}/user/create
 Content-Type: application/json
@@ -23,4 +24,4 @@ Content-Type: application/json
 ### GET USER LIST
 GET {{BASE_URL}}/admin/user/list
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NTg5NDgwMywiZXhwIjoxNzQ1OTgxMjAzfQ.y2sIpigdd_WHbQk1B5WXxEJIvXP6gnqCy-DzXSkw_Ek
+Authorization: Bearer  eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NzYzNTY2NSwiZXhwIjoxNzQ3NzIyMDY1fQ.SEirFy18YqfJevQEdKK6WZbMcmXXRaBe6h_wrLIRZQk

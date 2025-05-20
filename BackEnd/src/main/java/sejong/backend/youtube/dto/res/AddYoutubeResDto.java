@@ -5,12 +5,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class addYoutubeResDto {
+public class AddYoutubeResDto {
 
     private String reqUseremail;
     private String YoutubeUUID;
     
-    public addYoutubeResDto(String reqUseremail, String YoutubeUUID) {
+    public AddYoutubeResDto(String reqUseremail, String YoutubeUUID) {
         this.reqUseremail = reqUseremail;
         this.YoutubeUUID = YoutubeUUID;
     }

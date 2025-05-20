@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class addYoutubeReqDto {
+public class AddYoutubeReqDto {
     private String YoutubeUUID;
 }
