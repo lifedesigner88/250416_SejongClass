@@ -7,3 +7,11 @@ Authorization: Bearer {{token}}
   "youtubeUUID": "dLt-3APQFKI"
 }
 
+### 계정에 유튜브 영상 등록 2
+POST {{BASE_URL}}/youtube/add
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "youtubeUUID": "WZBIBYSsWHU"
+}

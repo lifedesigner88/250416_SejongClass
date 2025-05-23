@@ -15,7 +15,7 @@ export const useYoutubeStore = defineStore('youtube', () => {
 
         if (!token.value) alert('로그인이 필요합니다.');
         else
-            linkResult.value = await POST('/user/youtube', { youtubeUUID }, token.value);
+            linkResult.value = await POST('/youtube/add', { youtubeUUID }, token.value);
 
     }
 

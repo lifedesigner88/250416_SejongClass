@@ -19,7 +19,7 @@ Content-Type: application/json
 
 > {% client.global.set("token", response.body.accessToken); %}
 
-### ADMIN LOGIN
+### 관리자 로그인
 POST {{BASE_URL}}/user/login
 Content-Type: application/json
 

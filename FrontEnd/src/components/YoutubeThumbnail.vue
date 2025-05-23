@@ -1,5 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useYoutubeStore } from '../store/youtube.js'
+import { useUserStore } from "@/store/user.js";
+import { storeToRefs } from "pinia";
 
 const youtubeUrl = ref('')
 const isLoading = ref(false)
@@ -58,9 +61,14 @@ const handleImageError = () => {
 }
 
 // 썸네일 가져오기 처리
-const linkYoutubeToUser = () => {
+const { linkYoutubeToUser } = useYoutubeStore()
+const { linkResult } = storeToRefs(useYoutubeStore());
 
+const callLinkYoutubeToUser = async() => {
 
+  const youtubeUUID = extractVideoId(youtubeUrl.value)
+
+  await linkYoutubeToUser(youtubeUUID);
 
 }
 </script>
@@ -77,7 +85,7 @@ const linkYoutubeToUser = () => {
           v-model="youtubeUrl"
           placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
       />
-      <button @click="linkYoutubeToUser">유튜브 연결</button>
+      <button @click="callLinkYoutubeToUser">유튜브 연결</button>
     </div>
 
     <div v-if="thumbnailUrl" class="thumbnail-display">
@@ -98,6 +106,7 @@ const linkYoutubeToUser = () => {
           />
         </a>
         <p>비디오 ID: {{ extractVideoId(youtubeUrl) }}</p>
+        {{ linkResult }}
       </div>
     </div>
   </div>
