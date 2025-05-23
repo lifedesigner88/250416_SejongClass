@@ -1,10 +1,4 @@
-### Variables
-@BASE_URL = http://localhost:8080
-@token = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NzYzNTY2NSwiZXhwIjoxNzQ3NzIyMDY1fQ.SEirFy18YqfJevQEdKK6WZbMcmXXRaBe6h_wrLIRZQk
-@usertoken = eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwidXNlcklkIjoyLCJzdWIiOiJ0ZXN0UGFzcyIsImlhdCI6MTc0NzcwNDI2NywiZXhwIjoxNzQ3NzkwNjY3fQ.KWEdxMzCF9mkfqjhgWvOAT9smaRWIbCwZMDeSDiu3Vs
-
-
-### POST {{baseUrl}}/user/youtube
+### 로그인한 계정에 유튜브 등록
 POST {{BASE_URL}}/youtube/add
 Content-Type: application/json
 Authorization: Bearer {{token}}
@@ -13,11 +7,3 @@ Authorization: Bearer {{token}}
   "youtubeUUID": "dLt-3APQFKI"
 }
 
-### POST {{baseUrl}}/user/youtube
-POST {{BASE_URL}}/youtube/add
-Content-Type: application/json
-Authorization: Bearer {{usertoken}}
-
-{
-  "youtubeUUID": "dLt-3APQFKI"
-}

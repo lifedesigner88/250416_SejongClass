@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '../store/user.js'
-import { storeToRefs } from "pinia";
 
 // 사용자 정보를 저장할 반응형 객체
 const loginInfo = ref({
@@ -9,18 +8,11 @@ const loginInfo = ref({
   password: ''
 })
 
-const userStore = useUserStore();
-const { loginUser } = userStore
-const { userLoginResult } = storeToRefs(userStore)
-
-// 이벤트 emit 정의
-const emit = defineEmits(['login-success'])
+const { loginUser } = useUserStore()
 
 // 폼 제출 처리 함수
 const handleSubmit = async () => {
   await loginUser(loginInfo.value);
-  emit('login-success', userLoginResult.value);
-  // 회원가입 후 폼 초기화
 }
 </script>
 
@@ -51,9 +43,6 @@ const handleSubmit = async () => {
       </div>
       <button type="submit">로그인</button>
     </form>
-    <div v-if="userLoginResult" class="result-message">
-      {{ userLoginResult }}
-    </div>
   </div>
 </template>
 

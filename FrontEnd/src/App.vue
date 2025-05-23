@@ -7,18 +7,19 @@ import UserList from "@/components/UserList.vue";
 
 // 현재 활성화된 탭을 관리하는 반응형 변수
 const activeTab = ref('signup') // 'signup' 또는 'youtube'
-const result = ref("비어있음")
+
+import { useUserStore } from './store/user.js'
+import { storeToRefs } from "pinia";
+
+const { userLoginResult } = storeToRefs(useUserStore())
 
 // 회원가입 성공 시 처리 함수
-const showResultData = (userData) => {
-  result.value = userData
-}
 </script>
 
 <template>
   <div class="app-container">
     <header>
-      <h1>Vue 애플리케이션</h1>
+      <h1> {{ userLoginResult.name || '로그인 하세요' }} </h1>
       <nav>
         <button
             @click="activeTab = 'signup'"
@@ -50,11 +51,9 @@ const showResultData = (userData) => {
     <main>
       <SignupForm
           v-if="activeTab === 'signup'"
-          @signup-success="showResultData"
       />
       <LoginForm
           v-if="activeTab === 'login'"
-          @login-success="showResultData"
       />
       <YoutubeThumbnail
           v-if="activeTab === 'youtube'"
@@ -62,7 +61,6 @@ const showResultData = (userData) => {
       <UserList
           v-if="activeTab === 'userlist'"
       />
-      {{ result }}
     </main>
   </div>
 </template>
@@ -133,7 +131,6 @@ nav button.youtube {
   background-color: #FF0000;
   color: white;
 }
-
 
 
 nav button:hover:not(.active) {

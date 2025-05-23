@@ -1,8 +1,4 @@
-### Variables
-@BASE_URL = http://localhost:8080
-
-
-### POST 회원생성
+### 유저 생성
 POST {{BASE_URL}}/user/create
 Content-Type: application/json
 
@@ -12,7 +8,7 @@ Content-Type: application/json
     "password": "1234"
 }
 
-### USER LOGIN
+### 유저 로그인
 POST {{BASE_URL}}/user/login
 Content-Type: application/json
 
@@ -21,7 +17,21 @@ Content-Type: application/json
   "password": "1234"
 }
 
-### GET USER LIST
+> {% client.global.set("token", response.body.accessToken); %}
+
+### ADMIN LOGIN
+POST {{BASE_URL}}/user/login
+Content-Type: application/json
+
+{
+  "email": "root",
+  "password": "1234"
+}
+
+> {% client.global.set("token", response.body.accessToken); %}
+
+
+### 유저정보
 GET {{BASE_URL}}/admin/user/list
 Content-Type: application/json
-Authorization: Bearer  eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInVzZXJJZCI6MSwic3ViIjoicm9vdCIsImlhdCI6MTc0NzYzNTY2NSwiZXhwIjoxNzQ3NzIyMDY1fQ.SEirFy18YqfJevQEdKK6WZbMcmXXRaBe6h_wrLIRZQk
+Authorization: Bearer {{token}}

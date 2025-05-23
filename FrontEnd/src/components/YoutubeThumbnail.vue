@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue'
 
 const youtubeUrl = ref('')
-
 const isLoading = ref(false)
 const hasError = ref(false)
 
@@ -19,8 +18,6 @@ const extractVideoId = (url) => {
 
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
   const match = url.match(regExp)
-
-  console.log(match, "🚀");
 
   // URL이 youtu.be/VIDEO_ID 형식인 경우
   if (url.includes('youtu.be/')) {
@@ -61,11 +58,10 @@ const handleImageError = () => {
 }
 
 // 썸네일 가져오기 처리
-const fetchThumbnail = () => {
-  if (!youtubeUrl.value) return
+const linkYoutubeToUser = () => {
 
-  isLoading.value = true
-  hasError.value = false
+
+
 }
 </script>
 
@@ -81,7 +77,7 @@ const fetchThumbnail = () => {
           v-model="youtubeUrl"
           placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
       />
-      <button @click="fetchThumbnail">썸네일 가져오기</button>
+      <button @click="linkYoutubeToUser">유튜브 연결</button>
     </div>
 
     <div v-if="thumbnailUrl" class="thumbnail-display">
