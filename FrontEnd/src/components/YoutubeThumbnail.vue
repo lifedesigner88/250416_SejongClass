@@ -1,7 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useYoutubeStore } from '../store/youtube.js'
-import { useUserStore } from "@/store/user.js";
 import { storeToRefs } from "pinia";
 
 const youtubeUrl = ref('')

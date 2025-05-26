@@ -11,7 +11,14 @@ const activeTab = ref('signup') // 'signup' 또는 'youtube'
 import { useUserStore } from './store/user.js'
 import { storeToRefs } from "pinia";
 
-const { userLoginResult } = storeToRefs(useUserStore())
+const { token, userLoginResult } = storeToRefs(useUserStore())
+
+const logout = () => {
+  localStorage.removeItem('token')
+  userLoginResult.value = "";
+  token.value = "";
+  alert('로그아웃 되었습니다.')
+}
 
 // 회원가입 성공 시 처리 함수
 </script>
@@ -32,6 +39,9 @@ const { userLoginResult } = storeToRefs(useUserStore())
             :class="{ login: activeTab === 'login' }"
         >
           로그인
+        </button>
+        <button @click="logout" >
+          로그아웃
         </button>
         <button
             @click="activeTab = 'youtube'"
