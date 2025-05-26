@@ -1,14 +1,14 @@
 package sejong.backend.youtube.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sejong.backend.exception.InvalidYoutubeIdException;
 import sejong.backend.youtube.dto.req.AddYoutubeReqDto;
 import sejong.backend.youtube.dto.res.AddYoutubeResDto;
+import sejong.backend.youtube.dto.res.YoutubeResDto;
 import sejong.backend.youtube.service.YoutubeService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/youtube")
@@ -26,6 +26,12 @@ public class YoutubeController {
         AddYoutubeResDto resDto = youtubeService.linkYoutubeToUser(dto);
         
         return ResponseEntity.ok(resDto);
+    }
+    
+    @GetMapping("list")
+    public ResponseEntity<List<YoutubeResDto>> getYoutubeList() {
+        List<YoutubeResDto> youtubeList = youtubeService.getMyYoutubeList();
+        return ResponseEntity.ok(youtubeList);
     }
     
     

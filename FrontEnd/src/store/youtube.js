@@ -1,5 +1,5 @@
 import { defineStore, storeToRefs } from "pinia";
-import { POST } from "@/services/fetchApi.js";
+import { POST, GET } from "@/services/fetchApi.js";
 import { useUserStore } from "@/store/user.js";
 import { ref } from "vue";
 
@@ -9,6 +9,7 @@ export const useYoutubeStore = defineStore('youtube', () => {
     const { token } = storeToRefs(useUserStore());
 
     const linkResult = ref({});
+    const youtubeList = ref([]);
 
 
     const linkYoutubeToUser = async (youtubeUUID) => {
@@ -19,9 +20,16 @@ export const useYoutubeStore = defineStore('youtube', () => {
 
     }
 
+    const getMyYoutubeList = async () => {
+        youtubeList.value = await GET('/youtube/list', token.value);
+    }
+
+
     return {
         linkResult,
+        youtubeList,
         linkYoutubeToUser,
+        getMyYoutubeList,
     }
 
 })

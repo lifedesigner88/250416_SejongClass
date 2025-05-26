@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useYoutubeStore } from '../store/youtube.js'
 import { storeToRefs } from "pinia";
+import ThumbnailCards from "@/components/ThumbnailCards.vue";
 
 const youtubeUrl = ref('')
 const isLoading = ref(false)
@@ -10,14 +11,6 @@ const hasError = ref(false)
 
 const extractVideoId = (url) => {
   if (!url) return null
-
-  //      유튜브 URL 형식:
-  //     "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-  //     "https://youtu.be/dQw4w9WgXcQ",
-  //     "https://youtube.com/embed/dQw4w9WgXcQ",
-  //     "https://youtube.com/v/dQw4w9WgXcQ",
-  //     "https://youtube.com/u/username/dQw4w9WgXcQ"
-
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
   const match = url.match(regExp)
 
@@ -60,29 +53,29 @@ const handleImageError = () => {
 }
 
 // 썸네일 가져오기 처리
-const { linkYoutubeToUser } = useYoutubeStore()
+const { linkYoutubeToUser, getMyYoutubeList } = useYoutubeStore()
 const { linkResult } = storeToRefs(useYoutubeStore());
 
 const callLinkYoutubeToUser = async() => {
 
   const youtubeUUID = extractVideoId(youtubeUrl.value)
-
   await linkYoutubeToUser(youtubeUUID);
+  await getMyYoutubeList();
+
+
 
 }
 </script>
 
 <template>
   <div class="youtube-thumbnail-container">
-    <h2>유튜브 썸네일 가져오기</h2>
 
     <div class="input-group">
-      <label for="youtube-url">유튜브 URL 입력:</label>
       <input
           type="text"
           id="youtube-url"
           v-model="youtubeUrl"
-          placeholder="https://www.youtube.com/watch?v=VIDEO_ID"
+          placeholder="유튜브 URL 입력"
       />
       <button @click="callLinkYoutubeToUser">유튜브 연결</button>
     </div>
@@ -95,7 +88,6 @@ const callLinkYoutubeToUser = async() => {
         썸네일을 가져올 수 없습니다.
       </div>
       <div v-else class="thumbnail">
-        <h3>썸네일:</h3>
         <a :href="videoLink" target="_blank">
           <img
               :src="thumbnailUrl"
@@ -104,11 +96,10 @@ const callLinkYoutubeToUser = async() => {
               @error="handleImageError"
           />
         </a>
-        <p>비디오 ID: {{ extractVideoId(youtubeUrl) }}</p>
-        {{ linkResult }}
       </div>
     </div>
   </div>
+  <ThumbnailCards></ThumbnailCards>
 </template>
 
 <style scoped>
@@ -185,4 +176,5 @@ button:hover {
 .error {
   color: #d9534f;
 }
+
 </style>

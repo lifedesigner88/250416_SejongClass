@@ -15,3 +15,9 @@ Authorization: Bearer {{token}}
 {
   "youtubeUUID": "WZBIBYSsWHU"
 }
+
+
+### 저장한 유튜브 리스트
+GET {{BASE_URL}}/youtube/list
+Content-Type: application/json
+Authorization: Bearer {{token}}

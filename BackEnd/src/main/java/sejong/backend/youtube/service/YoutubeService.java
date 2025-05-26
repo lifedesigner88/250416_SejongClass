@@ -6,12 +6,14 @@ import sejong.backend.exception.InvalidYoutubeIdException;
 import sejong.backend.user.entity.User;
 import sejong.backend.youtube.dto.req.AddYoutubeReqDto;
 import sejong.backend.youtube.dto.res.AddYoutubeResDto;
+import sejong.backend.youtube.dto.res.YoutubeResDto;
 import sejong.backend.youtube.entity.UserYoutube;
 import sejong.backend.youtube.entity.UserYoutubeId;
 import sejong.backend.youtube.entity.Youtube;
 import sejong.backend.youtube.repository.UserYoutubeRepository;
 import sejong.backend.youtube.repository.YoutubeRepository;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
@@ -62,4 +64,12 @@ public class YoutubeService {
         }
     }
     
+    public List<YoutubeResDto> getMyYoutubeList() {
+        User currentUser = securityUtils.getUserByAuthentication();
+        return userYoutubeRepository.findByUser(currentUser)
+                .stream()
+                .map(UserYoutube::getYoutube)
+                .map(YoutubeResDto::new)
+                .toList();
+    }
 }
