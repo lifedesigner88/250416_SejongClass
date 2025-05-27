@@ -9,9 +9,9 @@ export async function POST(endpoint, userData, token = '') {
 
     try {
         const response = await fetch(url, {
-            method : 'POST',
+            method: 'POST',
             headers,
-            body : JSON.stringify(userData)
+            body: JSON.stringify(userData)
         })
         if (response.status === 409) {
             alert('이미 존재하는 이메일입니다.');
@@ -32,7 +32,7 @@ export async function GET(endpoint, token = '') {
 
     try {
         const response = await fetch(url, {
-            method : 'GET',
+            method: 'GET',
             headers
         })
 
@@ -41,6 +41,28 @@ export async function GET(endpoint, token = '') {
             return { error: true, status: 403, message: '권한이 없습니다.' };
         }
         return await response.json()
+
+    } catch (error) {
+        console.error('API 요청 오류:', error)
+        throw error
+    }
+}
+
+export async function DELETE(endpoint, token = '') {
+    const url = `${BASE_URL}${endpoint}`
+
+    const headers = { 'Content-Type': 'application/json' }
+    if (token) headers['Authorization'] = `Bearer ${token}`
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers
+        })
+
+        if (response.status === 403) {
+            alert('권한이 없습니다.');
+        }
 
     } catch (error) {
         console.error('API 요청 오류:', error)

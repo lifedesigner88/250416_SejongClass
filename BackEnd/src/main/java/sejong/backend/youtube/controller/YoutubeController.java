@@ -22,9 +22,7 @@ public class YoutubeController {
     
     @PostMapping("add")
     public ResponseEntity<AddYoutubeResDto> addYoutubeToUser(@RequestBody AddYoutubeReqDto dto) throws InvalidYoutubeIdException {
-        
         AddYoutubeResDto resDto = youtubeService.linkYoutubeToUser(dto);
-        
         return ResponseEntity.ok(resDto);
     }
     

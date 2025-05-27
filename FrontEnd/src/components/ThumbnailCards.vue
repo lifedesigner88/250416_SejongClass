@@ -3,9 +3,9 @@ import { ref, onMounted } from 'vue';
 import { useYoutubeStore } from '../store/youtube.js';
 import { storeToRefs } from "pinia";
 
-// 데이터 예시
+// 피니아
 const { youtubeList } = storeToRefs(useYoutubeStore());
-const { getMyYoutubeList } = useYoutubeStore();
+const { getMyYoutubeList, deleteYoutubeFromToken } = useYoutubeStore();
 
 
 // 로딩 상태 관리
@@ -32,14 +32,13 @@ onMounted(() => {
   youtubeList.value.forEach(video => {
     loadingStates.value[video.youtubeId] = true;
   });
-
   getMyYoutubeList();
-
 });
 
 // 비디오 삭제 함수
-const removeVideo = (youtubeId) => {
-  youtubeList.value = youtubeList.value.filter(video => video.youtubeId !== youtubeId);
+const removeVideo = async (youtubeId) => {
+  await deleteYoutubeFromToken(youtubeId);
+  await getMyYoutubeList();
 };
 </script>
 
@@ -96,8 +95,8 @@ h2 {
 
 .youtube-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 7px;
 }
 
 .youtube-card {
@@ -109,7 +108,7 @@ h2 {
 }
 
 .youtube-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
@@ -142,9 +141,9 @@ h2 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
-  background-color: rgba(255, 0, 0, 0.8);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 0, 0, 0.5);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -155,7 +154,7 @@ h2 {
 
 .thumbnail-wrapper:hover .play-button {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1.1);
+  transform: translate(-50%, -50%) scale(1.2);
 }
 
 .video-info {

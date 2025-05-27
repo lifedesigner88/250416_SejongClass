@@ -62,7 +62,7 @@ const callLinkYoutubeToUser = async() => {
   await linkYoutubeToUser(youtubeUUID);
   await getMyYoutubeList();
 
-
+  alert(linkResult.value.reqUseremail + " 님에게 " + linkResult.value.youtubeUUID + " 동영상이 연결되었습니다.");
 
 }
 </script>

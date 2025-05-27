@@ -35,3 +35,9 @@ Content-Type: application/json
 GET {{BASE_URL}}/admin/user/list
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+
+### MYINFO
+GET {{BASE_URL}}/user/token/myinfo
+Content-Type: application/json
+Authorization: Bearer {{token}}

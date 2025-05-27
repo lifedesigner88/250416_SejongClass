@@ -72,4 +72,17 @@ public class YoutubeService {
                 .map(YoutubeResDto::new)
                 .toList();
     }
+    
+    public void deleteYoutubeFromToken(Long youtubeId) {
+        User currentUser = securityUtils.getUserByAuthentication();
+        Youtube youtube = youtubeRepository.findById(youtubeId).orElse(null);
+        if (youtube != null) {
+            UserYoutubeId id = new UserYoutubeId(currentUser, youtube);
+            if (userYoutubeRepository.existsById(id)) {
+                userYoutubeRepository.deleteById(id);
+            } else {
+                throw new IllegalArgumentException("존재하지 않는 유저와 연동된 Youtube입니다.");
+            }
+        }
+    }
 }

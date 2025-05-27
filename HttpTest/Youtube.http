@@ -21,3 +21,9 @@ Authorization: Bearer {{token}}
 GET {{BASE_URL}}/youtube/list
 Content-Type: application/json
 Authorization: Bearer {{token}}
+
+
+### 유저가 지정한 유튜브 영상 삭제
+DELETE {{BASE_URL}}/youtube/token/delete/1
+Content-Type: application/json
+Authorization: Bearer {{token}}

@@ -3,6 +3,7 @@ package sejong.backend.user.service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import sejong.backend.config.jwt.JwtTokenUtil;
+import sejong.backend.config.security.SecurityUtils;
 import sejong.backend.exception.EmailDuplicateException;
 import sejong.backend.user.dto.req.CreateUserReqDto;
 import sejong.backend.user.dto.req.LoginReqDto;
@@ -23,14 +24,16 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenUtil jwtTokenUtil;
+    private final SecurityUtils securityUtils;
 
     public UserService(UserDAO userDAO, UserRepository userRepository,
                        PasswordEncoder passwordEncoder,
-                       JwtTokenUtil jwtTokenUtil) {
+                       JwtTokenUtil jwtTokenUtil, SecurityUtils securityUtils) {
         this.userDAO = userDAO;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtTokenUtil = jwtTokenUtil;
+        this.securityUtils = securityUtils;
     }
 
     public CreateUserResDto createUser(CreateUserReqDto dto) {
@@ -64,5 +67,10 @@ public class UserService {
         return users.stream()
                 .map(UserInfoResDto::new)
                 .toList();
+    }
+    
+    public UserInfoResDto getMyInfoFromToken() {
+        User user = securityUtils.getUserByAuthentication();
+        return new UserInfoResDto(user);
     }
 }

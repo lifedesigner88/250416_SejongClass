@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import SignupForm from './components/SignupForm.vue'
 import YoutubeThumbnail from './components/YoutubeThumbnail.vue'
 import LoginForm from "@/components/LoginForm.vue";
@@ -12,13 +12,14 @@ import { useUserStore } from './store/user.js'
 import { storeToRefs } from "pinia";
 
 const { token, userLoginResult } = storeToRefs(useUserStore())
+const { getMyInfoFromToken, logout } = useUserStore();
 
-const logout = () => {
-  localStorage.removeItem('token')
-  userLoginResult.value = "";
-  token.value = "";
-  alert('로그아웃 되었습니다.')
-}
+onMounted(() => {
+  // 로컬스토리지에 토큰이 존재하면 로그인 처리
+  if( token.value && Object.keys(userLoginResult.value ).length === 0 ) {
+    getMyInfoFromToken();
+  }
+})
 
 // 회원가입 성공 시 처리 함수
 </script>

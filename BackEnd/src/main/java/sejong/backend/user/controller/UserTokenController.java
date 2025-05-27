@@ -7,22 +7,19 @@ import org.springframework.web.bind.annotation.RestController;
 import sejong.backend.user.dto.res.UserInfoResDto;
 import sejong.backend.user.service.UserService;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/admin/user")
-public class AdminUserController {
-    
+@RequestMapping("/user/token")
+public class UserTokenController {
+
     private final UserService userService;
     
-    public AdminUserController(UserService userService) {
+    public UserTokenController(UserService userService) {
         this.userService = userService;
     }
     
-    @GetMapping("list")
-    public ResponseEntity<List<UserInfoResDto>> getUserList() {
-        List<UserInfoResDto> resDtos = userService.getAllUserInfo();
-        return ResponseEntity.ok(resDtos);
+    @GetMapping("myinfo")
+    public ResponseEntity<UserInfoResDto> getMyInfoFromToken() {
+        return ResponseEntity.ok(userService.getMyInfoFromToken());
     }
     
 }
