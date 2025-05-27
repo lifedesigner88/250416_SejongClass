@@ -5,9 +5,6 @@ import { storeToRefs } from "pinia";
 import ThumbnailCards from "@/components/ThumbnailCards.vue";
 
 const youtubeUrl = ref('')
-const isLoading = ref(false)
-const hasError = ref(false)
-
 
 const extractVideoId = (url) => {
   if (!url) return null
@@ -19,11 +16,9 @@ const extractVideoId = (url) => {
     const parts = url.split('/')
     return parts[parts.length - 1].split('?')[0]
   }
-
   return (match && match[7].length === 11) ? match[7] : null
 }
 
-// 썸네일 URL을 생성하는 계산된 속성
 const thumbnailUrl = computed(() => {
   const videoId = extractVideoId(youtubeUrl.value)
   if (!videoId) return null
@@ -32,44 +27,22 @@ const thumbnailUrl = computed(() => {
   return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
 })
 
-// 유튜브 영상 링크를 생성하는 계산된 속성
-const videoLink = computed(() => {
-  const videoId = extractVideoId(youtubeUrl.value)
-  if (!videoId) return null
-
-  return `https://www.youtube.com/watch?v=${videoId}`
-})
-
-
-// 썸네일 이미지 로딩 처리
-const handleImageLoad = () => {
-  isLoading.value = false
-}
-
-// 썸네일 이미지 로드 오류 처리
-const handleImageError = () => {
-  isLoading.value = false
-  hasError.value = true
-}
-
 // 썸네일 가져오기 처리
 const { linkYoutubeToUser, getMyYoutubeList } = useYoutubeStore()
 const { linkResult } = storeToRefs(useYoutubeStore());
 
-const callLinkYoutubeToUser = async() => {
-
+const callLinkYoutubeToUser = async () => {
   const youtubeUUID = extractVideoId(youtubeUrl.value)
   await linkYoutubeToUser(youtubeUUID);
   await getMyYoutubeList();
-
-  alert(linkResult.value.reqUseremail + " 님에게 " + linkResult.value.youtubeUUID + " 동영상이 연결되었습니다.");
-
+  youtubeUrl.value = "";
 }
+
 </script>
 
 <template>
+  <ThumbnailCards></ThumbnailCards>
   <div class="youtube-thumbnail-container">
-
     <div class="input-group">
       <input
           type="text"
@@ -79,27 +52,15 @@ const callLinkYoutubeToUser = async() => {
       />
       <button @click="callLinkYoutubeToUser">유튜브 연결</button>
     </div>
-
     <div v-if="thumbnailUrl" class="thumbnail-display">
-      <div v-if="isLoading" class="loading">
-        썸네일 로딩 중...
-      </div>
-      <div v-else-if="hasError" class="error">
-        썸네일을 가져올 수 없습니다.
-      </div>
-      <div v-else class="thumbnail">
-        <a :href="videoLink" target="_blank">
-          <img
-              :src="thumbnailUrl"
-              alt="유튜브 썸네일"
-              @load="handleImageLoad"
-              @error="handleImageError"
-          />
-        </a>
+      <div class="thumbnail">
+        <img
+            :src="thumbnailUrl"
+            alt="유튜브 썸네일"
+        />
       </div>
     </div>
   </div>
-  <ThumbnailCards></ThumbnailCards>
 </template>
 
 <style scoped>
@@ -164,17 +125,6 @@ button:hover {
 
 .thumbnail img:hover {
   transform: scale(1.02);
-}
-
-.loading, .error {
-  text-align: center;
-  padding: 20px;
-  background-color: #f8f8f8;
-  border-radius: 4px;
-}
-
-.error {
-  color: #d9534f;
 }
 
 </style>

@@ -15,8 +15,11 @@ export const useYoutubeStore = defineStore('youtube', () => {
     const linkYoutubeToUser = async (youtubeUUID) => {
 
         if (!token.value) alert('로그인이 필요합니다.');
-        else
+        else {
             linkResult.value = await POST('/youtube/add', { youtubeUUID }, token.value);
+            alert(linkResult.value.reqUseremail + " 님에게 " + linkResult.value.youtubeUUID + " 동영상이 연결되었습니다.");
+        }
+
     }
 
     const getMyYoutubeList = async () => {

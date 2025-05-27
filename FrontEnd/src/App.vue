@@ -4,12 +4,11 @@ import SignupForm from './components/SignupForm.vue'
 import YoutubeThumbnail from './components/YoutubeThumbnail.vue'
 import LoginForm from "@/components/LoginForm.vue";
 import UserList from "@/components/UserList.vue";
+import { useUserStore } from './store/user.js'
+import { storeToRefs } from "pinia";
 
 // 현재 활성화된 탭을 관리하는 반응형 변수
 const activeTab = ref('signup') // 'signup' 또는 'youtube'
-
-import { useUserStore } from './store/user.js'
-import { storeToRefs } from "pinia";
 
 const { token, userLoginResult } = storeToRefs(useUserStore())
 const { getMyInfoFromToken, logout } = useUserStore();
@@ -48,7 +47,7 @@ onMounted(() => {
             @click="activeTab = 'youtube'"
             :class="{ youtube: activeTab === 'youtube' }"
         >
-          유튜브 썸네일
+          유튜브 영상
         </button>
         <button
             @click="activeTab = 'userlist'"

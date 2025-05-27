@@ -1,25 +1,14 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useYoutubeStore } from '../store/youtube.js';
+import { useUserStore } from '../store/user.js';
 import { storeToRefs } from "pinia";
 
 // 피니아
 const { youtubeList } = storeToRefs(useYoutubeStore());
+const { token } = storeToRefs(useUserStore());
 const { getMyYoutubeList, deleteYoutubeFromToken } = useYoutubeStore();
 
-
-// 로딩 상태 관리
-const loadingStates = ref({});
-
-// 썸네일 이미지 로딩 처리
-const handleImageLoad = (id) => {
-  loadingStates.value[id] = false;
-};
-
-// 썸네일 이미지 로드 오류 처리
-const handleImageError = (id) => {
-  loadingStates.value[id] = 'error';
-};
 
 // 비디오 재생 페이지로 이동
 const openVideo = (youtubeUUID) => {
@@ -28,38 +17,28 @@ const openVideo = (youtubeUUID) => {
 
 // 초기화 시 모든 비디오 로딩 상태 설정
 onMounted(() => {
-
-  youtubeList.value.forEach(video => {
-    loadingStates.value[video.youtubeId] = true;
-  });
-  getMyYoutubeList();
+  if (token.value) {
+    getMyYoutubeList();
+  }
 });
 
 // 비디오 삭제 함수
 const removeVideo = async (youtubeId) => {
-  await deleteYoutubeFromToken(youtubeId);
-  await getMyYoutubeList();
+  if (confirm("정말로 삭제하시겠습니까?")) {
+    await deleteYoutubeFromToken(youtubeId);
+    await getMyYoutubeList();
+  }
 };
 </script>
 
 <template>
   <div class="youtube-gallery-container">
-    <h2>나의 YouTube 동영상 모음</h2>
-
     <div class="youtube-cards">
       <div v-for="video in youtubeList" :key="video.youtubeId" class="youtube-card">
         <div class="thumbnail-wrapper" @click="openVideo(video.youtubeUUID)">
-          <div v-if="loadingStates[video.youtubeId] === true" class="loading">
-            로딩 중...
-          </div>
-          <div v-else-if="loadingStates[video.youtubeId] === 'error'" class="error">
-            썸네일을 불러올 수 없습니다.
-          </div>
           <img
               :src="`https://img.youtube.com/vi/${video.youtubeUUID}/hqdefault.jpg`"
               :alt="`YouTube 비디오 ${video.youtubeId}`"
-              @load="handleImageLoad(video.youtubeId)"
-              @error="handleImageError(video.youtubeId)"
               class="thumbnail-image"
           />
           <div class="play-button">
@@ -161,23 +140,6 @@ h2 {
   padding: 15px;
 }
 
-
-.loading, .error {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f8f8f8;
-  color: #666;
-}
-
-.error {
-  color: #d9534f;
-}
 
 .remove-button {
   padding: 6px 12px;

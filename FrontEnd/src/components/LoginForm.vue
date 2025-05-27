@@ -96,11 +96,4 @@ button:hover {
   background-color: #45a049;
 }
 
-.result-message {
-  margin-top: 15px;
-  padding: 10px;
-  background-color: #f8f9fa;
-  border-radius: 4px;
-  text-align: center;
-}
 </style>
