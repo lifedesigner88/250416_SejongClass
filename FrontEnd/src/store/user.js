@@ -1,6 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from "pinia";
 import { POST, GET } from "@/services/fetchApi.js";
+import router from "@/router/index.js";
 
 export const useUserStore = defineStore('user', () => {
 
@@ -27,6 +28,7 @@ export const useUserStore = defineStore('user', () => {
         userLoginResult.value = "";
         token.value = "";
         alert('로그아웃 되었습니다.')
+        router.push('/login');
     }
 
     const getUserList = async () => {

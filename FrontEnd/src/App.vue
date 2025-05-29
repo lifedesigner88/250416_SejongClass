@@ -1,21 +1,16 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import SignupForm from './components/SignupForm.vue'
-import YoutubeThumbnail from './components/YoutubeThumbnail.vue'
-import LoginForm from "@/components/LoginForm.vue";
-import UserList from "@/components/UserList.vue";
 import { useUserStore } from './store/user.js'
 import { storeToRefs } from "pinia";
 
-// 현재 활성화된 탭을 관리하는 반응형 변수
-const activeTab = ref('signup') // 'signup' 또는 'youtube'
+const activeTab = ref('home');
 
 const { token, userLoginResult } = storeToRefs(useUserStore())
 const { getMyInfoFromToken, logout } = useUserStore();
 
 onMounted(() => {
   // 로컬스토리지에 토큰이 존재하면 로그인 처리
-  if( token.value && Object.keys(userLoginResult.value ).length === 0 ) {
+  if (token.value && Object.keys(userLoginResult.value).length === 0) {
     getMyInfoFromToken();
   }
 })
@@ -28,49 +23,52 @@ onMounted(() => {
     <header>
       <h1> {{ userLoginResult.name || '로그인 하세요' }} </h1>
       <nav>
-        <button
-            @click="activeTab = 'signup'"
-            :class="{ signup: activeTab === 'signup' }"
-        >
-          회원가입
-        </button>
-        <button
-            @click="activeTab = 'login'"
-            :class="{ login: activeTab === 'login' }"
-        >
-          로그인
-        </button>
-        <button @click="logout" >
+        <router-link to="signup">
+          <button
+              @click="activeTab = 'signup'"
+              :class="{ signup: activeTab === 'signup' }"
+          >
+            회원가입
+          </button>
+        </router-link>
+
+        <router-link to="login">
+          <button
+              @click="activeTab = 'login'"
+              :class="{ login: activeTab === 'login' }"
+          >
+            로그인
+          </button>
+        </router-link>
+
+        <router-link to="youtubelist">
+          <button
+              @click="activeTab = 'youtube'"
+              :class="{ youtube: activeTab === 'youtube' }"
+          >
+            유튜브 영상
+          </button>
+        </router-link>
+
+        <router-link to="userlist">
+          <button
+              @click="activeTab = 'userlist'"
+              :class="{ userlist: activeTab === 'userlist' }"
+          >
+            유저리스트
+          </button>
+        </router-link>
+
+        <button @click="logout">
           로그아웃
-        </button>
-        <button
-            @click="activeTab = 'youtube'"
-            :class="{ youtube: activeTab === 'youtube' }"
-        >
-          유튜브 영상
-        </button>
-        <button
-            @click="activeTab = 'userlist'"
-            :class="{ userlist: activeTab === 'userlist' }"
-        >
-          유저리스트
         </button>
       </nav>
     </header>
 
     <main>
-      <SignupForm
-          v-if="activeTab === 'signup'"
-      />
-      <LoginForm
-          v-if="activeTab === 'login'"
-      />
-      <YoutubeThumbnail
-          v-if="activeTab === 'youtube'"
-      />
-      <UserList
-          v-if="activeTab === 'userlist'"
-      />
+
+      <router-view/>
+
     </main>
   </div>
 </template>

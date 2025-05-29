@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '../store/user.js'
+import router from "@/router/index.js";
 
 // 사용자 정보를 저장할 반응형 객체
 const loginInfo = ref({
@@ -13,6 +14,7 @@ const { loginUser } = useUserStore()
 // 폼 제출 처리 함수
 const handleSubmit = async () => {
   await loginUser(loginInfo.value);
+  router.push('/youtubelist');
 }
 </script>
 
